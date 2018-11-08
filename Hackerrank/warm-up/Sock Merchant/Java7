@@ -1,0 +1,74 @@
+
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+	
+    // Complete the sockMerchant function below.
+    static int sockMerchant(int n, int[] ar) {
+        // ### 문제
+		// ar로 [1, 2, 1, 2, 3, 1] 색상의 양말이 들어오는데 같은 색 한 쌍의 총 개수를 출력하라.
+        // n은 양말 더미의 수
+        // ### 제약조건
+		// n은 1 <= n <= 100
+        // 1 <= ar[i] <= 100 where 0 <= i <= n
+
+        // 해결방법 1
+        // 0 -> i 번째까지 하나씩 가져와 1 -> i+1까지 확인
+		// 확인하여 쌍이 맞는 짝의 자리는 101로 변경, 확인할 i번째가 101이면 통과
+        int result = 0;
+        int chk = 1;
+        int chkValue = 101;
+        for( int i=0; i<n; i++ ) {
+            if( chk == n ) {    // 확인한 배열의 갯수가 총 갯수와 같으면 끝!
+                break; // A
+            }
+            if( ar[i] == chkValue ) {    // 이미 확인한 값에 대한 확인용도 101!
+                ++chk;  // 확인할 자리를 뒤로 이동한다.
+                continue; // A
+            }
+            for (int j = chk; j < ar.length; j++) {
+                if (ar[i] == ar[j]) {   //  같은 값이면 양말짝을 찾은것!
+                    ar[j] = chkValue;   //  이미 확인한 값은 제거!
+                    ++result;   //  양말짝 갯수 증가!
+                    break;  // B
+                }
+            } // B
+            ++chk;
+        }   // A
+        return result;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[] ar = new int[n];
+
+        String[] arItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < n; i++) {
+            int arItem = Integer.parseInt(arItems[i]);
+            ar[i] = arItem;
+        }
+
+        int result = sockMerchant(n, ar);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
