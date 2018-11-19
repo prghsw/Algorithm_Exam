@@ -1,1 +1,28 @@
 
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        String s = "aba"
+        long n = 10l;
+        long result = 0l;
+        long temp = n;
+        int leng = s.length();
+        
+        for (char c : s.toCharArray()) if (c == 'a') ++result;
+        if ( result == leng ) return n;
+        else if( result == 0 ) return 0l;
+        
+        result *= (n/leng);
+
+        temp = (n-(leng*(n/leng)));
+        
+        if( temp > 0 ) {
+            for(int i=0; i<temp; i++) {
+                if( 'a' == s.charAt(i) ) {
+                    ++result;
+                }
+            }
+        }
+    }
+}
